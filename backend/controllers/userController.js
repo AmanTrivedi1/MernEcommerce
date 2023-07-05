@@ -137,136 +137,136 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Get User Detail
-// exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
-//   const user = await User.findById(req.user.id);
 
-//   res.status(200).json({
-//     success: true,
-//     user,
-//   });
-// });
+exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
 
-// // update User password
-// exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
-//   const user = await User.findById(req.user.id).select("+password");
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
 
-//   const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+// update User password
+exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select("+password");
 
-//   if (!isPasswordMatched) {
-//     return next(new ErrorHander("Old password is incorrect", 400));
-//   }
+  const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 
-//   if (req.body.newPassword !== req.body.confirmPassword) {
-//     return next(new ErrorHander("password does not match", 400));
-//   }
+  if (!isPasswordMatched) {
+    return next(new ErrorHander("Old password is incorrect", 400));
+  }
 
-//   user.password = req.body.newPassword;
+  if (req.body.newPassword !== req.body.confirmPassword) {
+    return next(new ErrorHander("password does not match", 400));
+  }
 
-//   await user.save();
+  user.password = req.body.newPassword;
 
-//   sendToken(user, 200, res);
-// });
+  await user.save();
 
-// // update User Profile
-// exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
-//   const newUserData = {
-//     name: req.body.name,
-//     email: req.body.email,
-//   };
+  sendToken(user, 200, res);
+});
 
-//   if (req.body.avatar !== "") {
-//     const user = await User.findById(req.user.id);
+// update User Profile
+exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+  };
 
-//     const imageId = user.avatar.public_id;
+  // if (req.body.avatar !== "") {
+  //   const user = await User.findById(req.user.id);
 
-//     await cloudinary.v2.uploader.destroy(imageId);
+  //   const imageId = user.avatar.public_id;
 
-//     const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-//       folder: "avatars",
-//       width: 150,
-//       crop: "scale",
-//     });
+  //   await cloudinary.v2.uploader.destroy(imageId);
 
-//     newUserData.avatar = {
-//       public_id: myCloud.public_id,
-//       url: myCloud.secure_url,
-//     };
-//   }
+  //   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+  //     folder: "avatars",
+  //     width: 150,
+  //     crop: "scale",
+  //   });
 
-//   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
-//     new: true,
-//     runValidators: true,
-//     useFindAndModify: false,
-//   });
+  //   newUserData.avatar = {
+  //     public_id: myCloud.public_id,
+  //     url: myCloud.secure_url,
+  //   };
+  // }
 
-//   res.status(200).json({
-//     success: true,
-//   });
-// });
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
 
-// // Get all users(admin)
-// exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
-//   const users = await User.find();
+  res.status(200).json({
+    success: true,
+  });
+});
 
-//   res.status(200).json({
-//     success: true,
-//     users,
-//   });
-// });
+// Get all users(admin)
+exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
+  const users = await User.find();
 
-// // Get single user (admin)
-// exports.getSingleUser = catchAsyncErrors(async (req, res, next) => {
-//   const user = await User.findById(req.params.id);
+  res.status(200).json({
+    success: true,
+    users,
+  });
+});
 
-//   if (!user) {
-//     return next(
-//       new ErrorHander(`User does not exist with Id: ${req.params.id}`)
-//     );
-//   }
+// Get single user (admin)
+exports.getSingleUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
 
-//   res.status(200).json({
-//     success: true,
-//     user,
-//   });
-// });
+  if (!user) {
+    return next(
+      new ErrorHander(`User does not exist with Id: ${req.params.id}`)
+    );
+  }
 
-// // update User Role -- Admin
-// exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
-//   const newUserData = {
-//     name: req.body.name,
-//     email: req.body.email,
-//     role: req.body.role,
-//   };
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
 
-//   await User.findByIdAndUpdate(req.params.id, newUserData, {
-//     new: true,
-//     runValidators: true,
-//     useFindAndModify: false,
-//   });
+// update User Role -- Admin
+exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
 
-//   res.status(200).json({
-//     success: true,
-//   });
-// });
+  await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
 
-// // Delete User --Admin
-// exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
-//   const user = await User.findById(req.params.id);
+  res.status(200).json({
+    success: true,
+  });
+});
 
-//   if (!user) {
-//     return next(
-//       new ErrorHander(`User does not exist with Id: ${req.params.id}`, 400)
-//     );
-//   }
+// Delete User --Admin
+exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
 
-//   const imageId = user.avatar.public_id;
+  if (!user) {
+    return next(
+      new ErrorHander(`User does not exist with Id: ${req.params.id}`, 400)
+    );
+  }
 
-//   await cloudinary.v2.uploader.destroy(imageId);
+  //Do it for later
+  // const imageId = user.avatar.public_id;
+  // await cloudinary.v2.uploader.destroy(imageId);
+  await user.remove();
 
-//   await user.remove();
-
-//   res.status(200).json({
-//     success: true,
-//     message: "User Deleted Successfully",
-//   });
-// });
+  res.status(200).json({
+    success: true,
+    message: "User Deleted Successfully",
+  });
+});
