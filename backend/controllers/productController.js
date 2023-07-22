@@ -5,6 +5,7 @@ const ApiFeatures = require("../utils/apifeatures");
 const cloudinary = require("cloudinary");
 // Create Product -- Admin
 
+// Create Product -- Admin
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
   let images = [];
 
@@ -37,7 +38,6 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
     product,
   });
 });
-
 // Get All Product
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
   const resultPerPage = 8;
