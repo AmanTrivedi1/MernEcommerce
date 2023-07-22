@@ -3,7 +3,7 @@ const cloudinary = require("cloudinary");
 const dotenv = require("dotenv");
 const connectDatabase = require("./config/database");
 
-// Handling Uncaought Exception Defined Upper beacouse Necessary
+// Handling Uncaought Exception Defined Upper beacause Necessary
 process.on("uncaughtException", (err) => {
   console.log(`Error: ${err.message}`);
   console.log("Sutting Down the Server due to Uncaught error");
