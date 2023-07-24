@@ -1,0 +1,14 @@
+/* For the Speeddial that is on right side */
+.speedDial {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+}
+
+@media screen and (max-width: 1280px) {
+  .speedDial {
+    position: fixed;
+    right: 10px;
+    top: 60px;
+  }
+}
