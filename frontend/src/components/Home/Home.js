@@ -1,5 +1,7 @@
 import React, { Fragment, useEffect } from "react";
-
+import ProductCard from "./ProductCard";
+import MetaData from "../layout/MetaData";
+import { useAlert } from "react-alert";
 import homeimagesmall from "../../images/stable-diffusion-xl (12).jpeg";
 import homeimagetwo from "../../images/PhoneImageTwo.png";
 import homeimagethree from "../../images/PhoneImageThree.png";
@@ -9,15 +11,27 @@ import reviewimagetwo from "../../images/stable-diffusion-xl (12).jpeg";
 import reviewimagethree from "../../images/stable-diffusion-xl (14).jpeg";
 import reviewimagefour from "../../images/stable-diffusion-xl (15).jpeg";
 import cutomerimage from "../../images/stable-diffusion-xl (9).jpg";
+import { clearErrors, getProduct } from "../../actions/productAction";
+import { useSelector, useDispatch } from "react-redux";
+import Loader from "../layout/Loader/Loader";
 
 const Home = () => {
-  const loading = false;
+  const alert = useAlert();
+  const dispatch = useDispatch();
+  const { loading, error, products } = useSelector((state) => state.products);
 
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    dispatch(getProduct());
+  }, [dispatch, error, alert]);
   return (
     <>
       <Fragment>
         {loading ? (
-          <h1>Loading...</h1>
+          <Loader />
         ) : (
           <>
             <div className="relative flex flex-col-reverse py-16 lg:pt-0 lg:flex-col lg:pb-0">
@@ -253,7 +267,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            {/* <Fragment>
+            <Fragment>
               <MetaData title="ECOMMERCE" />
               <h2 className="flex items-center bg-[#ffffff] justify-center font-bold   md:text-2xl text-xl xl:text-3xl border-white">
                 Featured Product
@@ -267,7 +281,7 @@ const Home = () => {
                     <ProductCard key={product._id} product={product} />
                   ))}
               </div>
-            </Fragment> */}
+            </Fragment>
           </>
         )}
       </Fragment>

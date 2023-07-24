@@ -1,0 +1,40 @@
+.sidebar {
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  width: 250px;
+  height: 100%;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  flex-direction: column;
+  position: absolute;
+  top: 68px;
+  z-index: 50;
+  transform: translateX(-100%);
+}
+.sidebar--open {
+  transform: translateX(0%);
+}
+.sidebar a {
+  text-decoration: none;
+  color: #000000;
+  font: 200 1rem "Poppins";
+  padding: 1rem 2rem;
+}
+.sidebar:hover {
+  color: #332f2f;
+}
+.sidebar a > P {
+  display: flex;
+  align-items: center;
+}
+.sidebar a > p > svg {
+  margin-right: 0.5rem;
+}
+
+.MuiTypography-root {
+  background-color: #fff !important;
+}
+@media screen and (max-width: 1280px) {
+  .sidebar {
+    top: 65px;
+  }
+}
